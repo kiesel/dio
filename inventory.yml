@@ -1,0 +1,23 @@
+all:
+  hosts:
+    chip:
+      ansible_host: chip.fritz.box
+    dip:
+      ansible_host: dip.fritz.box
+    elaine:
+      ansible_host: elaine.fritz.box
+      
+  vars:
+    ansible_user: ansible 
+    ansible_connection: ssh
+    ansible_ssh_private_key_file: ./keys/ansible
+
+  children:
+    players:
+      hosts:
+        chip.fritz.box:
+        dip.fritz.box:
+
+    lms:
+      hosts:
+        elaine.fritz.box:
