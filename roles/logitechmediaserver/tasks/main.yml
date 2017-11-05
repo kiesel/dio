@@ -1,0 +1,10 @@
+---
+- name: Install lms dependencies
+  apt:
+    name: libio-socket-ssl-perl
+    state: installed
+
+- name: Install logitech mediaserver
+  script: installer.sh
+  args:
+    creates: /usr/sbin/squeezeboxserver

@@ -1,0 +1,15 @@
+---
+- name: Ensure squeezelite is installed
+  apt:
+    name: squeezelite
+    state: present
+
+- name: Configure squeezelite
+  template:
+    src: squeezelite.j2
+    dest: /etc/default/squeezelite
+    mode: 0644
+    owner: root
+    group: root
+  notify:
+    - Restart squeezelite

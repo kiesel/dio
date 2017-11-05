@@ -1,23 +1,31 @@
 all:
   hosts:
     chip:
-      ansible_host: chip.fritz.box
+      ansible_host: 10.0.10.107
+      squeezeplayer_name: livingroom
     dip:
-      ansible_host: dip.fritz.box
+      ansible_host: 10.0.10.108
+      squeezeplayer_name: kitchen
     elaine:
-      ansible_host: elaine.fritz.box
-      
+      ansible_host: 10.0.0.21
+
   vars:
     ansible_user: ansible 
     ansible_connection: ssh
     ansible_ssh_private_key_file: ./keys/ansible
-
+    ansible_become: true
+ 
   children:
     players:
       hosts:
-        chip.fritz.box:
-        dip.fritz.box:
+        chip:
+        dip:
 
     lms:
       hosts:
-        elaine.fritz.box:
+        elaine:
+
+    getchips:
+      hosts:
+        chip:
+        dip:

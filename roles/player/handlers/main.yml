@@ -1,0 +1,5 @@
+---
+- name: Restart squeezelite
+  service:
+    name: squeezelite
+    state: restarted

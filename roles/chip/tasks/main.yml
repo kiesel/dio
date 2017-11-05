@@ -1,0 +1,14 @@
+---
+- name: Ensure 'chip' account has changed default password
+  user:
+    name: chip
+    password: "$6$mf5lpycsnd.puNgO$xsh9bqmDOQHYMVA6GOyRukrXi5LaSAUdLomLbAQvFqIqdWZmuXBhhG9w2RLmoy3q7ZcEotC2bXDcdqnPI2UGU/"
+
+- name: Disable chip heartbeat
+  shell: echo none | tee /sys/class/leds/chip\:white\:status/trigger
+
+- name: Register chip heartbeat disable cron
+  cron:
+    name: Disable heartbeat
+    reboot: yes
+    job: echo none | tee /sys/class/leds/chip\:white\:status/trigger
