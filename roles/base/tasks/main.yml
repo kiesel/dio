@@ -16,7 +16,9 @@
     name: '{{ item }}'
     state: present
   with_items:
+    - less
     - net-tools
+    - ntp
     - unattended-upgrades
     - vim
 
@@ -27,3 +29,12 @@
 - name: Remove obsolete dependencies
   apt:
     autoremove: yes
+
+- name: Provide ntpd configuration
+  copy:
+    src: ntp.conf
+    dest: /etc/ntp.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart ntpd
