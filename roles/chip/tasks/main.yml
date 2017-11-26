@@ -12,3 +12,10 @@
     name: Disable heartbeat
     reboot: yes
     job: echo none | tee /sys/class/leds/chip\:white\:status/trigger
+
+- name: Register chip shutdown command every night 2am
+  cron:
+    name: Shutdown chip
+    minute: 0
+    hour: 2
+    job: shutdown -p now
