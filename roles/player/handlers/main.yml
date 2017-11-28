@@ -1,5 +1,13 @@
 ---
-- name: Restart squeezelite
-  service:
-    name: squeezelite
+- name: Reload systemd squeezelite service
+  systemd:
+    name: squeezelite.service
+    daemon_reload: yes
+    enabled: yes
+    masked: no
+    state: restarted
+
+- name: Reload rsyslog
+  systemd:
+    name: rsyslog.service
     state: restarted

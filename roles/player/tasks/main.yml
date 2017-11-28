@@ -1,15 +1,49 @@
 ---
+- name: Ensure squeezelite user
+  user:
+    name: squeezelite
+    group: audio
+    state: present
+
 - name: Ensure squeezelite is installed
   apt:
     name: squeezelite
     state: present
 
-- name: Configure squeezelite
+- name: Check for legacy squeezelite service
+  shell: test -f /etc/init.d/squeezelite
+  register: service_file
+  failed_when: False
+
+- name: Stop squeezelite as service
+  service:
+    name: squeezelite
+    state: stopped
+  when: service_file.rc != 0
+
+- name: Remove legacy service
+  file:
+    path: /etc/init.d/squeezelite
+    state: removed
+  when: service_file.rc != 0
+
+- name: Adjust rsyslog filter for squeezelite
   template:
-    src: squeezelite.j2
-    dest: /etc/default/squeezelite
-    mode: 0644
+    dest: /etc/rsyslog.d/squeezelite.conf
+    src: squeezelite.rsyslog.conf.j2
     owner: root
-    group: root
-  notify:
-    - Restart squeezelite
+    mode: 0644
+  notify: Reload rsyslog
+
+- name: Install squeezelite systemd service descriptor
+  template:
+    dest: /etc/systemd/system/squeezelite.service
+    src: squeezelite.service.j2
+    owner: root
+    mode: 0644
+  notify: Reload systemd squeezelite service
+
+- name: Ensure squeezelite systemd service enabled
+  systemd:
+    name: squeezelite.service
+    enabled: True

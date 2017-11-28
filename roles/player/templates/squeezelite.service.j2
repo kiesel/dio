@@ -1,0 +1,15 @@
+[Unit]
+Description=SqueezeLite
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/squeezelite -n "{{ squeezeplayer_name }}" -s {{ lms_server }} -d all=info
+User=squeezelite
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=squeezelite
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
