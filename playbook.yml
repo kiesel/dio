@@ -16,3 +16,5 @@
   roles:
     - name: logitechmediaserver
       tags: squeeze
+
+    - name: laptop

@@ -1,0 +1,14 @@
+---
+- name: Provide vbetool
+  package:
+    name: vbetool
+    state: present
+
+- name: Ensure monitor turned off
+  shell: vbetool dpms off
+
+- name: Turn off monitor 1 hour after boot
+  cron:
+    name: Turn off monitor
+    special_time: reboot
+    job: "/bin/sleep 3600 ; /usr/sbin/vbetool dpms off"
