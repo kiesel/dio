@@ -19,13 +19,13 @@
   service:
     name: squeezelite
     state: stopped
-  when: service_file.rc != 0
+  when: service_file.rc == 0
 
 - name: Remove legacy service
   file:
     path: /etc/init.d/squeezelite
-    state: removed
-  when: service_file.rc != 0
+    state: absent
+  when: service_file.rc == 0
 
 - name: Adjust rsyslog filter for squeezelite
   template:
